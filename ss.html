@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediTrack - EMR System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <i class="fas fa-notes-medical"></i>
+                    </div>
+                    <div class="logo"><b>MediTrack</b></div>
+                </div>
+
+            </div>
+            <div class="user-info">
+                <span>Dr. Sarah Johnson</span>
+                <div class="user-avatar">SJ</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <button class="nav-item active" onclick="showPage('dashboard')">
+                <div class="nav-icon"><i class="fas fa-chart-bar"></i></div>
+                Dashboard
+            </button>
+            <button class="nav-item" onclick="showPage('patients')">
+                <div class="nav-icon"><i class="fas fa-users"></i></div>
+                Patient Records
+            </button>
+            <button class="nav-item" onclick="showPage('appointments')">
+                <div class="nav-icon"><i class="fas fa-calendar-alt"></i></div>
+                Appointments
+            </button>
+            <button class="nav-item" onclick="showPage('prescriptions')">
+                <div class="nav-icon"><i class="fas fa-pills"></i></div>
+                Prescriptions
+            </button>
+            <button class="nav-item" onclick="showPage('medical-history')">
+                <div class="nav-icon"><i class="fas fa-clipboard-list"></i></div>
+                Medical History
+            </button>
+            <button class="nav-item" onclick="showPage('billing')">
+                <div class="nav-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                Billing
+            </button>
+        </div>
+
+        <div class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page">
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">Overview of your Dashboard</p>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-title">Total Patients</div>
+                        <div class="card-number">1,247</div>
+                        <div class="card-description">Active patient records</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Today's Appointments</div>
+                        <div class="card-number">18</div>
+                        <div class="card-description">Scheduled consultations</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Pending Results</div>
+                        <div class="card-number">7</div>
+                        <div class="card-description">Lab reports awaiting review</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-title">Recent Activities</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Patient</th>
+                                <th>Activity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>09:30 AM</td>
+                                <td>John Smith</td>
+                                <td>Consultation - Follow-up</td>
+                                <td><span class="status-badge status-active">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:15 AM</td>
+                                <td>Emma Wilson</td>
+                                <td>Lab Results Review</td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>11:00 AM</td>
+                                <td>Michael Brown</td>
+                                <td>Prescription Renewal</td>
+                                <td><span class="status-badge status-active">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Patient Records Page -->
+            <div id="patients" class="page hidden">
+                <h1 class="page-title">Patient Records</h1>
+                <p class="page-subtitle">Manage Patient Information</p>
+
+                <div class="table-header">
+                    <button class="btn btn-primary">Add New Patient</button>
+                </div>
+                <div class="content-section">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Last Visit</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#P001</td>
+                                <td>John Smith</td>
+                                <td>35</td>
+                                <td>Male</td>
+                                <td>2025-03-15</td>
+                                <td>
+                                    <button class="btn-view">View</button>
+                                    <button class="btn-edit">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#P002</td>
+                                <td>Emma Wilson</td>
+                                <td>28</td>
+                                <td>Female</td>
+                                <td>2025-03-14</td>
+                                <td>
+                                    <button class="btn-view">View</button>
+                                    <button class="btn-edit">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#P002</td>
+                                <td>John SMith</td>
+                                <td>42</td>
+                                <td>Male</td>
+                                <td>2025-03-08</td>
+                                <td>
+                                    <button class="btn-view">View</button>
+                                    <button class="btn-edit">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Appointments Page -->
+            <div id="appointments" class="page hidden">
+                <h1 class="page-title">Appointments</h1>
+                <p class="page-subtitle">Schedule and Manage Appointment</p>
+                <div class="table-header">
+                    <button class="btn btn-primary">Add New Schedule</button>
+                </div>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-title">Today</div>
+                        <div class="card-number">27</div>
+                        <div class="card-description">Schedule Today</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">This Week</div>
+                        <div class="card-number">2</div>
+                        <div class="card-description">Schedule this week</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Next Week</div>
+                        <div class="card-number">7</div>
+                        <div class="card-description">Schedule next week</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-title">Today's Schedule - September 14, 2025</div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Patient</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025-09-14</td>
+                                <td>09:00 AM</td>
+                                <td>John Smith</td>
+                                <td>Consultation</td>
+                                <td><span class="status-badge status-active">Confirmed</span></td>
+                                <td>
+                                    <button class="btn-edit">Resched</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2025-09-14</td>
+                                <td>10:30 AM</td>
+                                <td>Emma Wilson</td>
+                                <td>Follow-up</td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>
+                                    <button class="btn-edit">Resched</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Prescriptions Page -->
+            <div id="prescriptions" class="page hidden">
+                <h1 class="page-title">Prescriptions</h1>
+                <p class="page-subtitle">Manage patient prescriptions</p>
+                <div class="table-header">
+                    <button class="btn btn-primary">Add New Schedule</button>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-title">Recent Prescriptions</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Patient</th>
+                                <th>Medication</th>
+                                <th>Dosage</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sept 14, 2025</td>
+                                <td>John Smith</td>
+                                <td>Lisinopril</td>
+                                <td>10mg</td>
+                                <td>30 days</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sept 12, 2025</td>
+                                <td>Emma Wilson</td>
+                                <td>Metformin</td>
+                                <td>500mg</td>
+                                <td>90 days</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Medical History Page -->
+            <div id="medical-history" class="page hidden">
+                <h1 class="page-title">Medical History</h1>
+                <p class="page-subtitle">Patient medical recods and history</p>
+                
+
+                <div class="content-section">
+                    <div class="search-bar">
+                        <label><b>Search Input</b></label>
+                        <div class="search-bar-row">
+                            <input type="text" class="search-input" placeholder="Search patient medical history...">
+                            <button class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Patient</th>
+                                <th>Diagnosis</th>
+                                <th>Treatment</th>
+                                <th>Doctor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025-03-15</td>
+                                <td>John Smith</td>
+                                <td>Acute Bronchitis</td>
+                                <td>Antibiotics, Rest</td>
+                                <td>Dr. Sarah Johnson</td>
+                            </tr>
+                            <tr>
+                                <td>2025-03-10</td>
+                                <td>Emma Wilson</td>
+                                <td>Migraine</td>
+                                <td>Pain Management</td>
+                                <td>Dr. Sarah Johnson</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Billing Page -->
+            <div id="billing" class="page hidden">
+                <h1 class="page-title">Billing</h1>
+                <p class="page-subtitle">Patient billing an insurance</p>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-title">Outstanding</div>
+                        <div class="card-number">₱ 12,450</div>
+                        <div class="card-description">Pending payments</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Collected</div>
+                        <div class="card-number">₱ 8,920</div>
+                        <div class="card-description">This month</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Claims Pending</div>
+                        <div class="card-number">23</div>
+                        <div class="card-description">Insurance processing</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-title">Recent Transactions</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Patient</th>
+                                <th>Service</th>
+                                <th>Amount</th>
+                                <th>Insurance</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025-03-25</td>
+                                <td>John Smith</td>
+                                <td>Consultation</td>
+                                <td>2,000</td>
+                                <td><span class="status-badge status-pending">Medicare</span></td>
+                                <td><span class="status-badge status-pending">Processing</span></td>
+                            </tr>
+                            <tr>
+                                <td>2025-03-12</td>
+                                <td>Emma Wilson</td>
+                                <td>Lab Work</td>
+                                <td>4,000</td>
+                                <td><span class="status-badge status-pending">Aetna</span></td>
+                                <td><span class="status-badge status-active">Paid</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this modal HTML at the end of your body, just before the closing </body> tag -->
+    <div id="patientModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h2>Add Patient Records</h2>
+            <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+            <form id="patientForm">
+                <div class="form-group">
+                <label for="patientId" class="required">Patient ID</label>
+                <input type="text" id="patientId" name="patientId" required>
+                </div>
+                <div class="form-group">
+                <label for="patientName" class="required">Name</label>
+                <input type="text" id="patientName" name="patientName" required>
+                </div>
+                <div class="form-group">
+                <label for="patientAge" class="required">Age</label>
+                <input type="number" id="patientAge" name="patientAge" min="0" required>
+                </div>
+                <div class="form-group">
+                <label for="patientGender" class="required">Gender</label>
+                <select id="patientGender" name="patientGender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+                </div>
+                <div class="form-group">
+                <label for="lastVisit" class="required">Last Visit</label>
+                <input type="date" id="lastVisit" name="lastVisit" required>
+                </div>
+                <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment Modal -->
+    <div id="appointmentModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h2>Add Appointment</h2>
+        <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+        <form id="appointmentForm">
+            <div class="form-group">
+            <label for="apptDate" class="required">Date</label>
+            <input type="date" id="apptDate" name="apptDate" required>
+            </div>
+            <div class="form-group">
+            <label for="apptTime" class="required">Time</label>
+            <input type="time" id="apptTime" name="apptTime" required>
+            </div>
+            <div class="form-group">
+            <label for="apptPatient" class="required">Patient</label>
+            <input type="text" id="apptPatient" name="apptPatient" required>
+            </div>
+            <div class="form-group">
+            <label for="apptType" class="required">Type</label>
+            <select id="apptType" name="apptType" required>
+                <option value="">Select Type</option>
+                <option value="Consultation">Consultation</option>
+                <option value="Follow-up">Follow-up</option>
+                <option value="Lab Test">Lab Test</option>
+            </select>
+            </div>
+            <div class="form-group">
+            <label for="apptStatus" class="required">Status</label>
+            <select id="apptStatus" name="apptStatus" required>
+                <option value="">Select Status</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Pending">Pending</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+            </div>
+            <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancelApptBtn">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+
+    <!-- Prescription Modal -->
+    <div id="prescriptionModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h2>Add Prescription</h2>
+        <span class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+        <form id="prescriptionForm">
+            <div class="form-group">
+            <label for="prescDate" class="required">Date</label>
+            <input type="date" id="prescDate" name="prescDate" required>
+            </div>
+            <div class="form-group">
+            <label for="prescPatient" class="required">Patient</label>
+            <input type="text" id="prescPatient" name="prescPatient" required>
+            </div>
+            <div class="form-group">
+            <label for="prescMedication" class="required">Medication</label>
+            <input type="text" id="prescMedication" name="prescMedication" required>
+            </div>
+            <div class="form-group">
+            <label for="prescDosage" class="required">Dosage</label>
+            <input type="text" id="prescDosage" name="prescDosage" placeholder="e.g. 500mg" required>
+            </div>
+            <div class="form-group">
+            <label for="prescDuration" class="required">Duration</label>
+            <input type="text" id="prescDuration" name="prescDuration" placeholder="e.g. 30 days" required>
+            </div>
+            <div class="form-group">
+            <label for="prescStatus" class="required">Status</label>
+            <select id="prescStatus" name="prescStatus" required>
+                <option value="">Select Status</option>
+                <option value="Active">Active</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+            </div>
+            <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="cancelPrescBtn">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

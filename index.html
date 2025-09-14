@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediTrack - EMR System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+
+        .header {
+            background: #ffffff;
+            border-bottom: 2px solid #e9ecef;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #6c757d;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #ffffff;
+            border-right: 2px solid #e9ecef;
+            padding: 2rem 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1rem;
+            gap: 0.75rem;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: #f8f9fa;
+            border-right: 3px solid #6c757d;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            background: #6c757d;
+            border-radius: 3px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #343a40;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            border-color: #adb5bd;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #495057;
+        }
+
+        .card-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #343a40;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .content-section {
+            background: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #495057;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 0.5rem;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #6c757d;
+            background: #ffffff;
+            color: #495057;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background: #6c757d;
+            color: #ffffff;
+        }
+
+        .btn-primary {
+            background: #495057;
+            color: #ffffff;
+            border-color: #495057;
+        }
+
+        .btn-primary:hover {
+            background: #343a40;
+            border-color: #343a40;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #6c757d;
+        }
+
+        .patient-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            background: #ffffff;
+            transition: all 0.2s;
+        }
+
+        .patient-card:hover {
+            border-color: #adb5bd;
+            transform: translateY(-1px);
+        }
+
+        .patient-info h3 {
+            margin-bottom: 0.5rem;
+            color: #343a40;
+        }
+
+        .patient-meta {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d4e6d4;
+            color: #2d5a2d;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #6c757d;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .appointment-slot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+            background: #ffffff;
+        }
+
+        .appointment-time {
+            font-weight: 600;
+            color: #343a40;
+        }
+
+        .appointment-patient {
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">MediTrack</div>
+            <div class="user-info">
+                <span>Dr. Sarah Johnson</span>
+                <div class="user-avatar">SJ</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <button class="nav-item active" onclick="showPage('dashboard')">
+                <div class="nav-icon"></div>
+                Dashboard
+            </button>
+            <button class="nav-item" onclick="showPage('patients')">
+                <div class="nav-icon"></div>
+                Patient Records
+            </button>
+            <button class="nav-item" onclick="showPage('appointments')">
+                <div class="nav-icon"></div>
+                Appointments
+            </button>
+            <button class="nav-item" onclick="showPage('prescriptions')">
+                <div class="nav-icon"></div>
+                Prescriptions
+            </button>
+            <button class="nav-item" onclick="showPage('reports')">
+                <div class="nav-icon"></div>
+                Reports & Analytics
+            </button>
+            <button class="nav-item" onclick="showPage('billing')">
+                <div class="nav-icon"></div>
+                Billing
+            </button>
+        </div>
+
+        <div class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-title">Total Patients</div>
+                        <div class="card-number">1,247</div>
+                        <div class="card-description">Active patient records</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Today's Appointments</div>
+                        <div class="card-number">18</div>
+                        <div class="card-description">Scheduled consultations</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Pending Results</div>
+                        <div class="card-number">7</div>
+                        <div class="card-description">Lab reports awaiting review</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Revenue (MTD)</div>
+                        <div class="card-number">$24,350</div>
+                        <div class="card-description">Month-to-date earnings</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-title">Recent Activities</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Patient</th>
+                                <th>Activity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>09:30 AM</td>
+                                <td>John Smith</td>
+                                <td>Consultation - Follow-up</td>
+                                <td><span class="status-badge status-active">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>10:15 AM</td>
+                                <td>Emma Wilson</td>
+                                <td>Lab Results Review</td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>11:00 AM</td>
+                                <td>Michael Brown</td>
+                                <td>Prescription Renewal</td>
+                                <td><span class="status-badge status-active">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Patient Records Page -->
+            <div id="patients" class="page hidden">
+                <h1 class="page-title">Patient Records</h1>
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search patients by name, ID, or condition...">
+                    <button class="btn btn-primary">Search</button>
+                    <button class="btn">Add New Patient</button>
+                </div>
+
+                <div class="patient-card">
+                    <div class="patient-info">
+                        <h3>John Smith</h3>
+                        <div class="patient-meta">ID: PT001 | Age: 45 | Last Visit: Sept 12, 2025</div>
+                    </div>
+                    <div>
+                        <button class="btn">View Records</button>
+                        <button class="btn">Schedule</button>
+                    </div>
+                </div>
+
+                <div class="patient-card">
+                    <div class="patient-info">
+                        <h3>Emma Wilson</h3>
+                        <div class="patient-meta">ID: PT002 | Age: 32 | Last Visit: Sept 10, 2025</div>
+                    </div>
+                    <div>
+                        <button class="btn">View Records</button>
+                        <button class="btn">Schedule</button>
+                    </div>
+                </div>
+
+                <div class="patient-card">
+                    <div class="patient-info">
+                        <h3>Michael Brown</h3>
+                        <div class="patient-meta">ID: PT003 | Age: 58 | Last Visit: Sept 8, 2025</div>
+                    </div>
+                    <div>
+                        <button class="btn">View Records</button>
+                        <button class="btn">Schedule</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointments Page -->
+            <div id="appointments" class="page hidden">
+                <h1 class="page-title">Appointments</h1>
+                <div class="search-bar">
+                    <input type="date" class="search-input" value="2025-09-14">
+                    <button class="btn btn-primary">New Appointment</button>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-title">Today's Schedule - September 14, 2025</div>
+                    
+                    <div class="appointment-slot">
+                        <div>
+                            <div class="appointment-time">09:00 AM</div>
+                            <div class="appointment-patient">John Smith - Consultation</div>
+                        </div>
+                        <button class="btn">View</button>
+                    </div>
+
+                    <div class="appointment-slot">
+                        <div>
+                            <div class="appointment-time">10:30 AM</div>
+                            <div class="appointment-patient">Emma Wilson - Follow-up</div>
+                        </div>
+                        <button class="btn">View</button>
+                    </div>
+
+                    <div class="appointment-slot">
+                        <div>
+                            <div class="appointment-time">02:00 PM</div>
+                            <div class="appointment-patient">Michael Brown - Check-up</div>
+                        </div>
+                        <button class="btn">View</button>
+                    </div>
+
+                    <div class="appointment-slot">
+                        <div>
+                            <div class="appointment-time">03:30 PM</div>
+                            <div class="appointment-patient">Sarah Davis - Consultation</div>
+                        </div>
+                        <button class="btn">View</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prescriptions Page -->
+            <div id="prescriptions" class="page hidden">
+                <h1 class="page-title">Prescriptions</h1>
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search prescriptions by patient or medication...">
+                    <button class="btn btn-primary">New Prescription</button>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-title">Recent Prescriptions</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Patient</th>
+                                <th>Medication</th>
+                                <th>Dosage</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sept 14, 2025</td>
+                                <td>John Smith</td>
+                                <td>Lisinopril</td>
+                                <td>10mg</td>
+                                <td>30 days</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>Sept 12, 2025</td>
+                                <td>Emma Wilson</td>
+                                <td>Metformin</td>
+                                <td>500mg</td>
+                                <td>90 days</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>Sept 10, 2025</td>
+                                <td>Michael Brown</td>
+                                <td>Amoxicillin</td>
+                                <td>250mg</td>
+                                <td>7 days</td>
+                                <td><span class="status-badge status-pending">Completed</span></td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports & Analytics Page -->
+            <div id="reports" class="page hidden">
+                <h1 class="page-title">Reports & Analytics</h1>
+                
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-title">Patient Visits</div>
+                        <div class="card-number">342</div>
+                        <div class="card-description">This month</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Average Wait Time</div>
+                        <div class="card-number">12 min</div>
+                        <div class="card-description">Patient satisfaction metric</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">No-Show Rate</div>
+                        <div class="card-number">8.5%</div>
+                        <div class="card-description">Appointment efficiency</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-title">Report Generation</div>
+                    <div class="form-group">
+                        <label class="form-label">Report Type</label>
+                        <select class="form-input">
+                            <option>Patient Demographics</option>
+                            <option>Financial Summary</option>
+                            <option>Appointment Analytics</option>
+                            <option>Prescription Trends</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label">Start Date</label>
+                            <input type="date" class="form-input" value="2025-08-01">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label class="form-label">End Date</label>
+                            <input type="date" class="form-input" value="2025-09-14">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Generate Report</button>
+                </div>
+            </div>
+
+            <!-- Billing Page -->
+            <div id="billing" class="page hidden">
+                <h1 class="page-title">Billing & Insurance</h1>
+                
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-title">Outstanding</div>
+                        <div class="card-number">$12,450</div>
+                        <div class="card-description">Pending payments</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Collected</div>
+                        <div class="card-number">$8,920</div>
+                        <div class="card-description">This month</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Claims Pending</div>
+                        <div class="card-number">23</div>
+                        <div class="card-description">Insurance processing</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-title">Recent Transactions</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Patient</th>
+                                <th>Service</th>
+                                <th>Amount</th>
+                                <th>Insurance</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sept 14, 2025</td>
+                                <td>John Smith</td>
+                                <td>Consultation</td>
+                                <td>$150.00</td>
+                                <td>BlueCross</td>
+                                <td><span class="status-badge status-pending">Processing</span></td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>Sept 12, 2025</td>
+                                <td>Emma Wilson</td>
+                                <td>Lab Work</td>
+                                <td>$85.00</td>
+                                <td>Aetna</td>
+                                <td><span class="status-badge status-active">Paid</span></td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>Sept 10, 2025</td>
+                                <td>Michael Brown</td>
+                                <td>Physical Exam</td>
+                                <td>$200.00</td>
+                                <td>Medicare</td>
+                                <td><span class="status-badge status-active">Paid</span></td>
+                                <td><button class="btn">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.add('hidden'));
+            
+            // Remove active class from all nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.remove('hidden');
+            
+            // Add active class to clicked nav item
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
