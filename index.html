@@ -36,10 +36,12 @@
     </div>
 
     <script>
+        const doctor = { username: "doctor", password: "doc123" };
+        const patient = { username: "patient", password: "pat123" };
+
         function togglePassword() {
             const passwordField = document.getElementById("password");
             const icon = document.querySelector(".toggle-password i");
-
             if (passwordField.type === "password") {
                 passwordField.type = "text";
                 icon.classList.replace("fa-eye", "fa-eye-slash");
@@ -50,34 +52,47 @@
         }
 
         function login() {
-            const username = document.getElementById("username").value.trim();
+            const username = document.getElementById("username").value.trim().toLowerCase();
             const password = document.getElementById("password").value.trim();
             const message = document.getElementById("login-message");
-
-            // Static users
-            const doctor = { username: "doctor", password: "doc123" };
-            const patient = { username: "patient", password: "pat123" };
 
             if (username === doctor.username && password === doctor.password) {
                 message.textContent = "✅ Welcome Doctor!";
                 message.style.color = "green";
-
-                // Redirect after short delay for better UX
-                setTimeout(() => {
-                    window.location.href = "doctor.html";
-                }, 800);
-
-            } else if (username === patient.username && password === patient.password) {
+                setTimeout(() => window.location.href = "doctor.html", 800);
+            } 
+            else if (username === patient.username && password === patient.password) {
                 message.textContent = "✅ Welcome Patient!";
                 message.style.color = "green";
-
-                setTimeout(() => {
-                    window.location.href = "patient.html";
-                }, 800);
-
-            } else {
+                setTimeout(() => window.location.href = "patient.html", 800);
+            } 
+            else {
                 message.textContent = "❌ Invalid username or password.";
                 message.style.color = "red";
+            }
+        }
+
+        // Optional: validate while typing (live feedback)
+        document.getElementById("username").addEventListener("input", validateFields);
+        document.getElementById("password").addEventListener("input", validateFields);
+
+        function validateFields() {
+            const username = document.getElementById("username").value.trim().toLowerCase();
+            const password = document.getElementById("password").value.trim();
+            const userInput = document.getElementById("username");
+            const passInput = document.getElementById("password");
+
+            if (
+                (username === doctor.username && password === doctor.password) ||
+                (username === patient.username && password === patient.password)
+            ) {
+                userInput.classList.add("correct");
+                passInput.classList.add("correct");
+                userInput.classList.remove("wrong");
+                passInput.classList.remove("wrong");
+            } else {
+                userInput.classList.remove("correct");
+                passInput.classList.remove("correct");
             }
         }
     </script>
