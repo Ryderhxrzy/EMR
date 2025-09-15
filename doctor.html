@@ -156,17 +156,6 @@
                                     <button class="btn-edit">Edit</button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>#P002</td>
-                                <td>John SMith</td>
-                                <td>42</td>
-                                <td>Male</td>
-                                <td>2025-03-08</td>
-                                <td>
-                                    <button class="btn-view">View</button>
-                                    <button class="btn-edit">Edit</button>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -260,7 +249,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Sept 14, 2025</td>
+                                <td>2025-09-14</td>
                                 <td>John Smith</td>
                                 <td>Lisinopril</td>
                                 <td>10mg</td>
@@ -268,7 +257,7 @@
                                 <td><span class="status-badge status-active">Active</span></td>
                             </tr>
                             <tr>
-                                <td>Sept 12, 2025</td>
+                                <td>2025-09-16</td>
                                 <td>Emma Wilson</td>
                                 <td>Metformin</td>
                                 <td>500mg</td>
@@ -283,19 +272,18 @@
             <!-- Medical History Page -->
             <div id="medical-history" class="page hidden">
                 <h1 class="page-title">Medical History</h1>
-                <p class="page-subtitle">Patient medical recods and history</p>
-                
+                <p class="page-subtitle">Patient medical records and history</p>
 
                 <div class="content-section">
                     <div class="search-bar">
                         <label><b>Search Input</b></label>
                         <div class="search-bar-row">
-                            <input type="text" class="search-input" placeholder="Search patient medical history...">
-                            <button class="btn btn-primary">Search</button>
+                            <input type="text" id="historySearchInput" class="search-input" placeholder="Search patient medical history...">
+                            <button class="btn btn-primary" id="historySearchBtn">Search</button>
                         </div>
                     </div>
 
-                    <table class="table">
+                    <table class="table" id="medicalHistoryTable">
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -319,6 +307,62 @@
                                 <td>Migraine</td>
                                 <td>Pain Management</td>
                                 <td>Dr. Sarah Johnson</td>
+                            </tr>
+                            <tr>
+                                <td>2025-03-05</td>
+                                <td>Michael Brown</td>
+                                <td>Hypertension</td>
+                                <td>Medication, Diet</td>
+                                <td>Dr. James Carter</td>
+                            </tr>
+                            <tr>
+                                <td>2025-02-28</td>
+                                <td>Olivia Davis</td>
+                                <td>Allergic Rhinitis</td>
+                                <td>Antihistamines</td>
+                                <td>Dr. Emily Parker</td>
+                            </tr>
+                            <tr>
+                                <td>2025-02-20</td>
+                                <td>Liam Johnson</td>
+                                <td>Type 2 Diabetes</td>
+                                <td>Insulin Therapy</td>
+                                <td>Dr. James Carter</td>
+                            </tr>
+                            <tr>
+                                <td>2025-02-15</td>
+                                <td>Sophia Martinez</td>
+                                <td>Asthma</td>
+                                <td>Inhaler Treatment</td>
+                                <td>Dr. Sarah Johnson</td>
+                            </tr>
+                            <tr>
+                                <td>2025-02-10</td>
+                                <td>Noah Wilson</td>
+                                <td>Fractured Arm</td>
+                                <td>Cast, Rest</td>
+                                <td>Dr. Emily Parker</td>
+                            </tr>
+                            <tr>
+                                <td>2025-02-02</td>
+                                <td>Ava Thompson</td>
+                                <td>Seasonal Flu</td>
+                                <td>Fluids, Rest</td>
+                                <td>Dr. James Carter</td>
+                            </tr>
+                            <tr>
+                                <td>2025-01-28</td>
+                                <td>William Garcia</td>
+                                <td>Back Pain</td>
+                                <td>Physical Therapy</td>
+                                <td>Dr. Sarah Johnson</td>
+                            </tr>
+                            <tr>
+                                <td>2025-01-15</td>
+                                <td>Mia Anderson</td>
+                                <td>Stomach Ulcer</td>
+                                <td>Medication, Diet Change</td>
+                                <td>Dr. Emily Parker</td>
                             </tr>
                         </tbody>
                     </table>

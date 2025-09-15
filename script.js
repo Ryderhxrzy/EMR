@@ -157,11 +157,24 @@ class PatientModal {
             <td>${data.gender}</td>
             <td>${data.lastVisit}</td>
             <td>
-                <button class="btn-view" onclick="viewPatient('${data.id}')">View</button>
-                <button class="btn-edit" onclick="editPatient('${data.id}')">Edit</button>
+                <button class="btn-view">View</button>
+                <button class="btn-edit">Edit</button>
             </td>
         `;
         tableBody.appendChild(newRow);
+        
+        // Add event listeners to the new buttons
+        newRow.querySelector('.btn-view').addEventListener('click', (e) => {
+            const row = e.target.closest('tr');
+            const patientData = extractPatientDataFromRow(row);
+            patientModal.openViewMode(patientData);
+        });
+        
+        newRow.querySelector('.btn-edit').addEventListener('click', (e) => {
+            const row = e.target.closest('tr');
+            const patientData = extractPatientDataFromRow(row);
+            patientModal.openEditMode(patientData);
+        });
     }
     
     // Update patient in table (example implementation)
@@ -182,32 +195,6 @@ class PatientModal {
 // Initialize the modal manager
 const patientModal = new PatientModal();
 
-// Updated event handlers for buttons
-function setupPatientButtons() {
-    // Add New Patient button
-    document.querySelector('#patients .btn-primary').addEventListener('click', () => {
-        patientModal.openAddMode();
-    });
-    
-    // Update existing View buttons
-    document.querySelectorAll('.btn-view').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const row = e.target.closest('tr');
-            const patientData = extractPatientDataFromRow(row);
-            patientModal.openViewMode(patientData);
-        });
-    });
-    
-    // Update existing Edit buttons
-    document.querySelectorAll('.btn-edit').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const row = e.target.closest('tr');
-            const patientData = extractPatientDataFromRow(row);
-            patientModal.openEditMode(patientData);
-        });
-    });
-}
-
 // Helper function to extract patient data from table row
 function extractPatientDataFromRow(row) {
     const cells = row.querySelectorAll('td');
@@ -220,81 +207,31 @@ function extractPatientDataFromRow(row) {
     };
 }
 
-// Global functions for onclick handlers (if you prefer to keep them)
-function viewPatient(patientId) {
-    const rows = document.querySelectorAll('#patients .table tbody tr');
-    let row = null;
-
-    rows.forEach(r => {
-        if (r.cells[0].textContent.trim() === patientId) {
-            row = r;
-        }
+// Setup patient buttons
+function setupPatientButtons() {
+    // Add New Patient button
+    document.querySelector('#patients .btn-primary').addEventListener('click', () => {
+        patientModal.openAddMode();
     });
-
-    if (row) {
-        const patientData = extractPatientDataFromRow(row);
-        patientModal.openViewMode(patientData);
-    } else {
-        console.error(`No patient found with ID: ${patientId}`);
-    }
-}
-
-function editPatient(patientId) {
-    const rows = document.querySelectorAll('#patients .table tbody tr');
-    let row = null;
-
-    rows.forEach(r => {
-        if (r.cells[0].textContent.trim() === patientId) {
-            row = r;
-        }
+    
+    // Update existing View buttons
+    document.querySelectorAll('#patients .btn-view').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const row = e.target.closest('tr');
+            const patientData = extractPatientDataFromRow(row);
+            patientModal.openViewMode(patientData);
+        });
     });
-
-    if (row) {
-        const patientData = extractPatientDataFromRow(row);
-        patientModal.openEditMode(patientData);
-    } else {
-        console.error(`No patient found with ID: ${patientId}`);
-    }
+    
+    // Update existing Edit buttons
+    document.querySelectorAll('#patients .btn-edit').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const row = e.target.closest('tr');
+            const patientData = extractPatientDataFromRow(row);
+            patientModal.openEditMode(patientData);
+        });
+    });
 }
-
-
-// Initialize when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    setupPatientButtons();
-});
-
-// Your existing navigation functions
-function showPage(pageId) {
-    const pages = document.querySelectorAll('.page');
-    pages.forEach(page => page.classList.add('hidden'));
-    
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => item.classList.remove('active'));
-    
-    document.getElementById(pageId).classList.remove('hidden');
-    event.target.classList.add('active');
-    
-    if (window.innerWidth <= 1024) {
-        const sidebar = document.getElementById('sidebar');
-        sidebar.classList.remove('mobile-open');
-    }
-}
-
-function toggleMobileMenu() {
-    const sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('mobile-open');
-}
-
-document.addEventListener('click', function(event) {
-    const sidebar = document.getElementById('sidebar');
-    const menuBtn = document.querySelector('.mobile-menu-btn');
-    
-    if (window.innerWidth <= 1024 && 
-        !sidebar.contains(event.target) && 
-        !menuBtn.contains(event.target)) {
-        sidebar.classList.remove('mobile-open');
-    }
-});
 
 class AppointmentModal {
   constructor() {
@@ -359,7 +296,7 @@ class AppointmentModal {
     document.getElementById('apptTime').value = this.convertTo24Hour(cells[1].textContent.trim());
     document.getElementById('apptPatient').value = cells[2].textContent.trim();
     document.getElementById('apptType').value = cells[3].textContent.trim();
-    document.getElementById('apptStatus').value = cells[4].textContent.trim();
+    document.getElementById('apptStatus').value = cells[4].querySelector('.status-badge').textContent.trim();
   }
 
   clearForm() {
@@ -385,52 +322,52 @@ class AppointmentModal {
   }
 
   addAppointmentToTable(data) {
-  const tableBody = document.querySelector('#appointments .table tbody');
-  const newRow = document.createElement('tr');
+    const tableBody = document.querySelector('#appointments .table tbody');
+    const newRow = document.createElement('tr');
 
-  const statusClass = this.getStatusClass(data.status);
+    const statusClass = this.getStatusClass(data.status);
 
-  newRow.innerHTML = `
-    <td>${data.date}</td>
-    <td>${this.formatTime(data.time)}</td>
-    <td>${data.patient}</td>
-    <td>${data.type}</td>
-    <td><span class="status-badge ${statusClass}">${data.status}</span></td>
-    <td><button class="btn-edit">Resched</button></td>
-  `;
+    newRow.innerHTML = `
+      <td>${data.date}</td>
+      <td>${this.formatTime(data.time)}</td>
+      <td>${data.patient}</td>
+      <td>${data.type}</td>
+      <td><span class="status-badge ${statusClass}">${data.status}</span></td>
+      <td><button class="btn-resched">Resched</button></td>
+    `;
 
-  tableBody.appendChild(newRow);
+    tableBody.appendChild(newRow);
 
-  // Attach click event to new Resched button
-  newRow.querySelector('.btn-edit').addEventListener('click', () => {
-    appointmentModal.openRescheduleMode(newRow);
-  });
-}
-
-updateAppointmentInTable(data) {
-  if (!this.currentRow) return;
-  const cells = this.currentRow.querySelectorAll('td');
-  const statusClass = this.getStatusClass(data.status);
-
-  cells[0].textContent = data.date;
-  cells[1].textContent = this.formatTime(data.time);
-  cells[2].textContent = data.patient;
-  cells[3].textContent = data.type;
-  cells[4].innerHTML = `<span class="status-badge ${statusClass}">${data.status}</span>`;
-}
-
-getStatusClass(status) {
-  switch (status.toLowerCase()) {
-    case 'confirmed':
-      return 'status-active';
-    case 'pending':
-      return 'status-pending';
-    case 'cancelled':
-      return 'status-cancelled';
-    default:
-      return '';
+    // Attach click event to new Resched button
+    newRow.querySelector('.btn-resched').addEventListener('click', () => {
+      appointmentModal.openRescheduleMode(newRow);
+    });
   }
-}
+
+  updateAppointmentInTable(data) {
+    if (!this.currentRow) return;
+    const cells = this.currentRow.querySelectorAll('td');
+    const statusClass = this.getStatusClass(data.status);
+
+    cells[0].textContent = data.date;
+    cells[1].textContent = this.formatTime(data.time);
+    cells[2].textContent = data.patient;
+    cells[3].textContent = data.type;
+    cells[4].innerHTML = `<span class="status-badge ${statusClass}">${data.status}</span>`;
+  }
+
+  getStatusClass(status) {
+    switch (status.toLowerCase()) {
+      case 'confirmed':
+        return 'status-active';
+      case 'pending':
+        return 'status-pending';
+      case 'cancelled':
+        return 'status-cancelled';
+      default:
+        return '';
+    }
+  }
 
   formatTime(time) {
     // Convert "13:30" → "1:30 PM"
@@ -457,16 +394,24 @@ getStatusClass(status) {
 const appointmentModal = new AppointmentModal();
 
 // Setup appointment buttons
-document.querySelector('#appointments .btn-primary').addEventListener('click', () => {
-  appointmentModal.openAddMode();
-});
+function setupAppointmentButtons() {
+    document.querySelector('#appointments .btn-primary').addEventListener('click', () => {
+        appointmentModal.openAddMode();
+    });
 
-document.querySelectorAll('#appointments .btn-edit').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    const row = e.target.closest('tr');
-    appointmentModal.openRescheduleMode(row);
-  });
-});
+    // Use a different class for appointment reschedule buttons to avoid conflict
+    document.querySelectorAll('#appointments .btn-edit').forEach(btn => {
+        // Change the class to btn-resched to avoid conflict with patient edit buttons
+        btn.classList.remove('btn-edit');
+        btn.classList.add('btn-resched');
+        btn.textContent = 'Resched';
+        
+        btn.addEventListener('click', (e) => {
+            const row = e.target.closest('tr');
+            appointmentModal.openRescheduleMode(row);
+        });
+    });
+}
 
 class PrescriptionModal {
   constructor() {
@@ -474,8 +419,6 @@ class PrescriptionModal {
     this.form = document.getElementById('prescriptionForm');
     this.modalTitle = this.modal.querySelector('.modal-header h2');
     this.saveBtn = this.modal.querySelector('button[type="submit"]');
-    this.currentMode = null;
-    this.currentRow = null;
 
     this.initializeEventListeners();
   }
@@ -484,7 +427,7 @@ class PrescriptionModal {
     this.modal.querySelector('.close').addEventListener('click', () => this.closeModal());
     document.getElementById('cancelPrescBtn').addEventListener('click', () => this.closeModal());
 
-    // Close modal on outside click
+    // Close modal when clicking outside
     window.addEventListener('click', (event) => {
       if (event.target === this.modal) this.closeModal();
     });
@@ -496,19 +439,9 @@ class PrescriptionModal {
   }
 
   openAddMode() {
-    this.currentMode = 'add';
     this.modalTitle.textContent = 'Add New Prescription';
     this.saveBtn.textContent = 'Save Prescription';
     this.clearForm();
-    this.showModal();
-  }
-
-  openEditMode(row) {
-    this.currentMode = 'edit';
-    this.currentRow = row;
-    this.modalTitle.textContent = 'Edit Prescription';
-    this.saveBtn.textContent = 'Save Changes';
-    this.populateForm(row);
     this.showModal();
   }
 
@@ -519,18 +452,6 @@ class PrescriptionModal {
   closeModal() {
     this.modal.classList.add('hidden');
     this.clearForm();
-    this.currentMode = null;
-    this.currentRow = null;
-  }
-
-  populateForm(row) {
-    const cells = row.querySelectorAll('td');
-    document.getElementById('prescDate').value = this.convertDateToInputFormat(cells[0].textContent.trim());
-    document.getElementById('prescPatient').value = cells[1].textContent.trim();
-    document.getElementById('prescMedication').value = cells[2].textContent.trim();
-    document.getElementById('prescDosage').value = cells[3].textContent.trim();
-    document.getElementById('prescDuration').value = cells[4].textContent.trim();
-    document.getElementById('prescStatus').value = cells[5].textContent.trim();
   }
 
   clearForm() {
@@ -547,12 +468,7 @@ class PrescriptionModal {
       status: document.getElementById('prescStatus').value,
     };
 
-    if (this.currentMode === 'add') {
-      this.addPrescriptionToTable(data);
-    } else if (this.currentMode === 'edit') {
-      this.updatePrescriptionInTable(data);
-    }
-
+    this.addPrescriptionToTable(data);
     this.closeModal();
   }
 
@@ -568,39 +484,14 @@ class PrescriptionModal {
       <td>${data.dosage}</td>
       <td>${data.duration}</td>
       <td><span class="status-badge ${statusClass}">${data.status}</span></td>
-      <td><button class="btn-edit">Edit</button></td>
     `;
+
     tableBody.appendChild(newRow);
-
-    // Add click event for edit button
-    newRow.querySelector('.btn-edit').addEventListener('click', () => {
-      prescriptionModal.openEditMode(newRow);
-    });
-  }
-
-  updatePrescriptionInTable(data) {
-    if (!this.currentRow) return;
-    const cells = this.currentRow.querySelectorAll('td');
-    const statusClass = this.getStatusClass(data.status);
-
-    cells[0].textContent = this.formatDate(data.date);
-    cells[1].textContent = data.patient;
-    cells[2].textContent = data.medication;
-    cells[3].textContent = data.dosage;
-    cells[4].textContent = data.duration;
-    cells[5].innerHTML = `<span class="status-badge ${statusClass}">${data.status}</span>`;
   }
 
   formatDate(dateStr) {
-    // Converts 2025-09-15 → Sept 15, 2025
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  }
-
-  convertDateToInputFormat(dateStr) {
-    // Converts "Sept 14, 2025" back to "2025-09-14"
-    const date = new Date(dateStr);
-    return date.toISOString().split('T')[0];
   }
 
   getStatusClass(status) {
@@ -616,16 +507,78 @@ class PrescriptionModal {
 // Initialize prescription modal
 const prescriptionModal = new PrescriptionModal();
 
-// Setup Prescription Add button
-document.querySelector('#prescriptions .btn-primary').addEventListener('click', () => {
-  prescriptionModal.openAddMode();
+// Setup Add Prescription button
+function setupPrescriptionButtons() {
+    document.querySelector('#prescriptions .btn-primary').addEventListener('click', () => {
+        prescriptionModal.openAddMode();
+    });
+}
+
+// Your existing navigation functions
+function showPage(pageId) {
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => page.classList.add('hidden'));
+    
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => item.classList.remove('active'));
+    
+    document.getElementById(pageId).classList.remove('hidden');
+    event.target.classList.add('active');
+    
+    if (window.innerWidth <= 1024) {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.remove('mobile-open');
+    }
+}
+
+function toggleMobileMenu() {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('mobile-open');
+}
+
+document.addEventListener('click', function(event) {
+    const sidebar = document.getElementById('sidebar');
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    
+    if (window.innerWidth <= 1024 && 
+        !sidebar.contains(event.target) && 
+        !menuBtn.contains(event.target)) {
+        sidebar.classList.remove('mobile-open');
+    }
 });
 
-// Setup existing Edit buttons
-document.querySelectorAll('#prescriptions .btn-edit').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    const row = e.target.closest('tr');
-    prescriptionModal.openEditMode(row);
-  });
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    setupPatientButtons();
+    setupAppointmentButtons();
+    setupPrescriptionButtons();
 });
 
+const searchInput = document.getElementById('historySearchInput');
+const searchButton = document.getElementById('historySearchBtn');
+const tableBody = document.querySelector('#medicalHistoryTable tbody');
+const originalRows = Array.from(tableBody.querySelectorAll('tr')); // Store original rows
+
+searchButton.addEventListener('click', () => {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+
+    // Clear table first
+    tableBody.innerHTML = '';
+
+    // Filter rows
+    const filteredRows = originalRows.filter(row => {
+        const cells = row.querySelectorAll('td');
+        return Array.from(cells).some(cell =>
+            cell.textContent.toLowerCase().includes(searchTerm)
+        );
+    });
+
+    // Append matching rows or show "No results"
+    if (filteredRows.length > 0) {
+        filteredRows.forEach(row => tableBody.appendChild(row));
+    } else {
+        const noResultRow = document.createElement('tr');
+        noResultRow.innerHTML = `<td colspan="5" style="text-align:center; color:gray;">No records found</td>`;
+        tableBody.appendChild(noResultRow);
+    }
+});
