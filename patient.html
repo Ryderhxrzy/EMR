@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediTrack - EMR System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <i class="fas fa-notes-medical"></i>
+                    </div>
+                    <div class="logo"><b>MediTrack</b></div>
+                </div>
+            </div>
+            <div class="user-info" id="userInfo">
+            <span>John Smith</span>
+            <div class="user-avatar">JS</div>
+            </div>
+            <div class="user-dropdown" id="userDropdown">
+            <button id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <button class="nav-item active" onclick="showPage('dashboard')">
+                <div class="nav-icon"><i class="fas fa-chart-bar"></i></div>
+                My Dashboard
+            </button>
+            <button class="nav-item" onclick="showPage('appointments')">
+                <div class="nav-icon"><i class="fas fa-calendar-alt"></i></div>
+                My Appointments
+            </button>
+            <button class="nav-item" onclick="showPage('prescriptions')">
+                <div class="nav-icon"><i class="fas fa-pills"></i></div>
+                My Prescriptions
+            </button>
+        </div>
+
+        <div class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page">
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">Welcome back, John Smith</p>
+                
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-title">Upcoming Appointments</div>
+                        <div class="card-number">2</div>
+                        <div class="card-description">Next 7 days</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Active Prescriptions</div>
+                        <div class="card-number">3</div>
+                        <div class="card-description">Current medications</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Last Visit</div>
+                        <div class="card-number">2025-05-13</div>
+                        <div class="card-description">Dr. Sarah Johnson</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-title">Recent Activities</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Doctor</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025-05-12</td>
+                                <td>09:00 AM</td>
+                                <td>Dr. Sarah Johnson</td>
+                                <td><span class="status-badge status-pending">Follow-up</span></td>
+                                <td><span class="status-badge status-active">Completed</span></td>
+                            </tr>
+                            <tr>
+                                <td>2025-05-01</td>
+                                <td>02:30 PM</td>
+                                <td>Dr. Michael Davis</td>
+                                <td><span class="status-badge status-active">Consultation</span></td>
+                                <td><span class="status-badge status-active">Completed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Appointments Page -->
+            <div id="appointments" class="page hidden">
+                <h1 class="page-title">Appointments</h1>
+                <p class="page-subtitle">Your scheduled appointments</p>
+                <div class="table-header">
+                    <button class="btn btn-primary">Add New Schedule</button>
+                </div>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-title">Today</div>
+                        <div class="card-number">1</div>
+                        <div class="card-description">Scheduled today</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">This Week</div>
+                        <div class="card-number">2</div>
+                        <div class="card-description">Schedule this week</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Next Week</div>
+                        <div class="card-number">1</div>
+                        <div class="card-description">Schedule next week</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-title">Your Upcoming Appointments</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Doctor</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sept 15, 2025</td>
+                                <td>10:30 AM</td>
+                                <td>Dr. Sarah Johnson</td>
+                                <td>Consultation</td>
+                                <td><span class="status-badge status-active">Confirmed</span></td>
+                                <td>
+                                    <button class="btn-edit">Reschedule</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sept 18, 2025</td>
+                                <td>2:00 PM</td>
+                                <td>Dr. Michael Brown</td>
+                                <td>Specialist Referral</td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>
+                                    <button class="btn-edit">Reschedule</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Prescriptions Page -->
+            <div id="prescriptions" class="page hidden">
+                <h1 class="page-title">Prescriptions</h1>
+                <p class="page-subtitle">Your current medications</p>
+
+                <div class="content-section">
+                    <div class="section-title">Active Prescriptions</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Medication</th>
+                                <th>Dosage</th>
+                                <th>Frequency</th>
+                                <th>Start Date</th>
+                                <th>Refills</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lisinopril</td>
+                                <td>10mg</td>
+                                <td>Once daily</td>
+                                <td>Aug 15, 2025</td>
+                                <td>3</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Atorvastatin</td>
+                                <td>20mg</td>
+                                <td>Once daily</td>
+                                <td>Aug 20, 2025</td>
+                                <td>2</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                            </tr>
+                            <tr>
+                                <td>Metformin</td>
+                                <td>500mg</td>
+                                <td>Twice daily</td>
+                                <td>Sept 5, 2025</td>
+                                <td>1</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myAppointmentModal" class="modal hidden">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>My Appointment</h2>
+      <span class="close">&times;</span>
+    </div>
+    <div class="modal-body">
+      <form id="myAppointmentForm">
+        <div class="form-group">
+          <label for="myApptDate" class="required">Date</label>
+          <input type="date" id="myApptDate" name="myApptDate" required>
+        </div>
+
+        <div class="form-group">
+          <label for="myApptTime" class="required">Time</label>
+          <input type="time" id="myApptTime" name="myApptTime" required>
+        </div>
+
+        <div class="form-group">
+          <!-- Keep ID/Name same but change label -->
+          <label for="myApptPatient" class="required">Doctor</label>
+          <input type="text" id="myApptPatient" name="myApptPatient" placeholder="Enter doctor's name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="myApptType" class="required">Type</label>
+          <select id="myApptType" name="myApptType" required>
+            <option value="">Select Type</option>
+            <option value="Consultation">Consultation</option>
+            <option value="Follow-up">Follow-up</option>
+            <option value="Lab Test">Lab Test</option>
+            <option value="Specialist Referral">Specialist Referral</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="myApptStatus" class="required">Status</label>
+          <select id="myApptStatus" name="myApptStatus" required>
+            <option value="">Select Status</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Pending">Pending</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="cancelMyApptBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+    <script src="script.js"></script>
+    <script src="logout.js"></script>
+
+    <script>
+
+class MyAppointmentsModal {
+  constructor() {
+    this.modal = document.getElementById('myAppointmentModal');
+    this.form = document.getElementById('myAppointmentForm');
+    this.modalTitle = this.modal.querySelector('.modal-header h2');
+    this.currentRow = null;
+    this.mode = null;
+
+    // Handle submit
+    this.form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.handleSubmit();
+    });
+
+    // Handle cancel button
+    document.getElementById('cancelMyApptBtn').addEventListener('click', () => this.closeModal());
+
+    // Handle "X" close button
+    this.modal.querySelector('.close').addEventListener('click', () => this.closeModal());
+  }
+
+  openAddMode() {
+    this.mode = 'add';
+    this.modalTitle.textContent = 'Add New Appointment';
+    this.clearForm();
+    this.showModal();
+  }
+
+  openRescheduleMode(row) {
+    this.mode = 'edit';
+    this.currentRow = row;
+    this.modalTitle.textContent = 'Reschedule Appointment';
+    this.populateForm(row);
+    this.showModal();
+  }
+
+  showModal() {
+    this.modal.classList.remove('hidden');
+  }
+
+  closeModal() {
+    this.modal.classList.add('hidden');
+    this.clearForm();
+    this.currentRow = null;
+    this.mode = null;
+  }
+
+  clearForm() {
+    this.form.reset();
+  }
+
+  populateForm(row) {
+    const cells = row.querySelectorAll('td');
+    document.getElementById('myApptDate').value = this.convertToISODate(cells[0].textContent);
+    document.getElementById('myApptTime').value = this.convertTo24Hour(cells[1].textContent);
+    document.getElementById('myApptPatient').value = cells[2].textContent; // ✅ fixed
+    document.getElementById('myApptType').value = cells[3].textContent;
+    document.getElementById('myApptStatus').value = cells[4].innerText.trim();
+  }
+
+  handleSubmit() {
+    const data = {
+      date: document.getElementById('myApptDate').value,
+      time: document.getElementById('myApptTime').value,
+      doctor: document.getElementById('myApptPatient').value, // ✅ fixed
+      type: document.getElementById('myApptType').value,
+      status: document.getElementById('myApptStatus').value,
+    };
+
+    if (this.mode === 'add') {
+      this.addRow(data);
+    } else if (this.mode === 'edit' && this.currentRow) {
+      this.updateRow(data);
+    }
+    this.closeModal();
+  }
+
+  addRow(data) {
+    const tableBody = document.querySelector('#appointments table tbody');
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${this.formatDate(data.date)}</td>
+      <td>${this.formatTime(data.time)}</td>
+      <td>${data.doctor}</td>
+      <td>${data.type}</td>
+      <td><span class="status-badge ${this.getStatusClass(data.status)}">${data.status}</span></td>
+      <td><button class="btn-edit">Reschedule</button></td>
+    `;
+    tableBody.appendChild(row);
+
+    // Add reschedule button event
+    row.querySelector('.btn-edit').addEventListener('click', () => this.openRescheduleMode(row));
+  }
+
+  updateRow(data) {
+    const cells = this.currentRow.querySelectorAll('td');
+    cells[0].textContent = this.formatDate(data.date);
+    cells[1].textContent = this.formatTime(data.time);
+    cells[2].textContent = data.doctor;
+    cells[3].textContent = data.type;
+    cells[4].innerHTML = `<span class="status-badge ${this.getStatusClass(data.status)}">${data.status}</span>`;
+  }
+
+  getStatusClass(status) {
+    switch (status.toLowerCase()) {
+      case 'confirmed': return 'status-active';
+      case 'pending': return 'status-pending';
+      case 'cancelled': return 'status-cancelled';
+      default: return '';
+    }
+  }
+
+  formatDate(dateStr) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  formatTime(timeStr) {
+    let [hour, minute] = timeStr.split(':');
+    hour = parseInt(hour, 10);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12 || 12;
+    return `${hour}:${minute} ${ampm}`;
+  }
+
+  convertTo24Hour(timeStr) {
+    if (!timeStr.includes('AM') && !timeStr.includes('PM')) return timeStr;
+    const [time, modifier] = timeStr.split(' ');
+    let [hour, minute] = time.split(':');
+    hour = parseInt(hour, 10);
+    if (modifier === 'PM' && hour !== 12) hour += 12;
+    if (modifier === 'AM' && hour === 12) hour = 0;
+    return `${hour.toString().padStart(2, '0')}:${minute}`;
+  }
+
+  convertToISODate(dateStr) {
+    const date = new Date(dateStr);
+    return date.toISOString().split('T')[0];
+  }
+}
+
+const myAppointmentsModal = new MyAppointmentsModal();
+
+document.querySelector('#appointments .btn.btn-primary')
+  .addEventListener('click', () => myAppointmentsModal.openAddMode());
+
+document.querySelectorAll('#appointments .btn-edit').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const row = e.target.closest('tr');
+    myAppointmentsModal.openRescheduleMode(row);
+  });
+});
+</script>
+
+</body>
+</html>

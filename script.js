@@ -582,3 +582,25 @@ searchButton.addEventListener('click', () => {
         tableBody.appendChild(noResultRow);
     }
 });
+
+const userInfo = document.getElementById('userInfo');
+const userDropdown = document.getElementById('userDropdown');
+
+userInfo.addEventListener('click', () => {
+  userDropdown.style.display =
+    userDropdown.style.display === 'block' ? 'none' : 'block';
+});
+
+// Close dropdown if clicked outside
+window.addEventListener('click', (e) => {
+  if (!userInfo.contains(e.target) && !userDropdown.contains(e.target)) {
+    userDropdown.style.display = 'none';
+  }
+});
+
+// ✅ Logout functionality with redirect
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  userDropdown.style.display = 'none'; // Hide dropdown before leaving
+  alert('You have been logged out!');
+  window.location.href = 'index.html'; // Redirect to login page
+});

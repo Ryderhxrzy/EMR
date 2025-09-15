@@ -20,9 +20,12 @@
                 </div>
 
             </div>
-            <div class="user-info">
+            <div class="user-info" id="userInfo1">
                 <span>Dr. Sarah Johnson</span>
-                <div class="user-avatar">SJ</div>
+                <div class="user-avatar">JS</div>
+            </div>
+            <div class="user-dropdown" id="userDropdown1">
+                <button id="logoutBtn1"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
         </div>
     </div>
@@ -481,38 +484,38 @@
         <div class="modal-body">
         <form id="appointmentForm">
             <div class="form-group">
-            <label for="apptDate" class="required">Date</label>
-            <input type="date" id="apptDate" name="apptDate" required>
+                <label for="apptDate" class="required">Date</label>
+                <input type="date" id="apptDate" name="apptDate" required>
             </div>
             <div class="form-group">
-            <label for="apptTime" class="required">Time</label>
-            <input type="time" id="apptTime" name="apptTime" required>
+                <label for="apptTime" class="required">Time</label>
+                <input type="time" id="apptTime" name="apptTime" required>
             </div>
             <div class="form-group">
-            <label for="apptPatient" class="required">Patient</label>
-            <input type="text" id="apptPatient" name="apptPatient" required>
+                <label for="apptPatient" class="required">Patient</label>
+                <input type="text" id="apptPatient" name="apptPatient" required>
             </div>
             <div class="form-group">
-            <label for="apptType" class="required">Type</label>
-            <select id="apptType" name="apptType" required>
-                <option value="">Select Type</option>
-                <option value="Consultation">Consultation</option>
-                <option value="Follow-up">Follow-up</option>
-                <option value="Lab Test">Lab Test</option>
-            </select>
+                <label for="apptType" class="required">Type</label>
+                <select id="apptType" name="apptType" required>
+                    <option value="">Select Type</option>
+                    <option value="Consultation">Consultation</option>
+                    <option value="Follow-up">Follow-up</option>
+                    <option value="Lab Test">Lab Test</option>
+                </select>
             </div>
             <div class="form-group">
-            <label for="apptStatus" class="required">Status</label>
-            <select id="apptStatus" name="apptStatus" required>
-                <option value="">Select Status</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Pending">Pending</option>
-                <option value="Cancelled">Cancelled</option>
-            </select>
+                <label for="apptStatus" class="required">Status</label>
+                <select id="apptStatus" name="apptStatus" required>
+                    <option value="">Select Status</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
             </div>
             <div class="form-actions">
-            <button type="button" class="btn btn-secondary" id="cancelApptBtn">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-secondary" id="cancelApptBtn">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div>
         </form>
         </div>
@@ -567,5 +570,40 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const userInfo1 = document.getElementById("userInfo1");
+            const userDropdown1 = document.getElementById("userDropdown1");
+            const logoutBtn1 = document.getElementById("logoutBtn1");
+
+            // Toggle dropdown when clicking user info
+            if (userInfo1) {
+                userInfo1.addEventListener("click", () => {
+                    userDropdown1.style.display =
+                        userDropdown1.style.display === "block" ? "none" : "block";
+                });
+
+                window.addEventListener("click", (e) => {
+                    if (!userInfo1.contains(e.target) && !userDropdown1.contains(e.target)) {
+                        userDropdown1.style.display = "none";
+                    }
+                });
+            }
+
+            // Logout button click
+            if (logoutBtn1) {
+                logoutBtn1.addEventListener("click", () => {
+                    // Optional: clear any stored data
+                    sessionStorage.clear();
+                    localStorage.clear();
+
+                    // Confirmation (optional)
+                    if (confirm("Are you sure you want to logout?")) {
+                        window.location.href = "index.html";
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
