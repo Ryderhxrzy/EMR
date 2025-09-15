@@ -61,9 +61,20 @@
             if (username === doctor.username && password === doctor.password) {
                 message.textContent = "✅ Welcome Doctor!";
                 message.style.color = "green";
+
+                // Redirect after short delay for better UX
+                setTimeout(() => {
+                    window.location.href = "doctor.html";
+                }, 800);
+
             } else if (username === patient.username && password === patient.password) {
                 message.textContent = "✅ Welcome Patient!";
                 message.style.color = "green";
+
+                setTimeout(() => {
+                    window.location.href = "patient.html";
+                }, 800);
+
             } else {
                 message.textContent = "❌ Invalid username or password.";
                 message.style.color = "red";
